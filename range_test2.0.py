@@ -43,4 +43,7 @@ for i in range(0,n_dist-1):
     print(list_of_dists[i])
     initial += each_length
 
+for x in range(initial, initial+final_length):
+    list_of_dists[n_dist-1].extend([x])
+print(list_of_dists[n_dist-1])
 #print(list_of_dists[n_dist-1])

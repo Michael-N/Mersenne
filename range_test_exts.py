@@ -38,7 +38,6 @@ def range_dist(r_open, r_close, n_dist):
             list_of_dists[n_dist-1].extend([x])
         elif x == (initial+final_length-1):
             list_of_dists[n_dist-1].extend([x+1])
-    print("")
     return list_of_dists
 
 """

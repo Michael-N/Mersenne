@@ -13,6 +13,7 @@ def mers_list(range_open,range_close):
         x = int(math.ceil(math.sqrt(num)) + 1)
 
         for numToChk in range(2,x ):
+            print("[Test %s]  Iterating %s modulo %s "%(str(numToChk),str(num),str(numToChk)))
             if num % numToChk == 0:
                 return False
         return True
@@ -86,9 +87,8 @@ print("[Created Distributrion Server]")
 
 #Submit the Jobs
 allPartitions = []
-splitRanges = range_dist(1,5000,len(ppservers))
+splitRanges = range_dist(1,200000,len(ppservers))
 for j in range(0,len(ppservers)):
-    print(splitRanges)
     allPartitions.append(job_server.submit(mers_list,args=(splitRanges[j][0],splitRanges[j][1]),modules=("math","datetime")))
 print("[Created Partitions and sent the tasks for Computation]")
 
